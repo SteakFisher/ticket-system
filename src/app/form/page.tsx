@@ -1,0 +1,121 @@
+"use client"
+
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+
+import { Button } from "@/components/ui/button"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import {createClient} from "@/utils/supabase/client";
+import {Database} from "../../../database.types";
+
+const formSchema = z.object({
+  alias: z.string()
+    .min(2, {
+      message: "Alias must be at least 2 characters.",
+    })
+    .max(12, {
+      message: "Alias must be at most 12 characters.",
+    })
+    .regex(new RegExp("^\\w+$")),
+  altEmail: z.string().email({ message: "Invalid email address" }),
+  isVeg: z.boolean()
+})
+
+export default function FormPage() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      alias: "",
+      altEmail: "",
+      isVeg: true,
+    },
+  })
+
+  const supabase = createClient<Database>()
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit((e) => {
+        console.log(e)
+      })} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="alias"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Alias</FormLabel>
+              <FormControl>
+                <Input placeholder="SteakFisher" {...field} />
+              </FormControl>
+              <FormDescription>
+                Display name for the event.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="altEmail"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Alternate Email</FormLabel>
+              <FormControl>
+                <Input type={"email"} placeholder="kermitthefrog@gmail.com" {...field} />
+              </FormControl>
+              <FormDescription>
+                Alternate email for PLAUSIBLE notifications (and to sell your data).
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="isVeg"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>I am a..</FormLabel>
+              <FormControl>
+                <Select>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="true" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="true">Vegetarian</SelectItem>
+                    <SelectItem value="false">Non-Vegetarian</SelectItem>
+                  </SelectContent>
+                </Select>
+
+              </FormControl>
+              <FormDescription>
+                We (sometimes) care about your opinion.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Submit</Button>
+      </form>
+    </Form>
+  )
+}
