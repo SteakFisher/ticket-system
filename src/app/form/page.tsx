@@ -26,6 +26,8 @@ import {
 import { Input } from "@/components/ui/input"
 import {createClient} from "@/utils/supabase/client";
 import {Database} from "../../../database.types";
+import {useRouter} from "next/navigation";
+import {useState} from "react";
 
 const formSchema = z.object({
   alias: z.string()
@@ -50,12 +52,21 @@ export default function FormPage() {
     },
   })
 
+  const router = useRouter()
+
+  const [isDisabled, setIsDisabled] = useState(false);
+
   const supabase = createClient<Database>()
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit((e) => {
-        console.log(e)
+      <form onSubmit={form.handleSubmit(async (e) => {
+        setIsDisabled(true);
+        const {data} = await supabase.from("Guests").insert({alias: e.alias, altEmail: e.altEmail, isVeg: e.isVeg}).select("*")
+        if (data) {
+          router.push("/form/success")
+        }
+
       })} className="space-y-8">
         <FormField
           control={form.control}
@@ -114,7 +125,7 @@ export default function FormPage() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isDisabled}>Submit</Button>
       </form>
     </Form>
   )
