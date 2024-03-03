@@ -1,16 +1,16 @@
-"use client"
-import { QrReader } from 'react-qr-reader';
+import {createClient} from "@/utils/supabase/server";
+import {Database} from "../../../database.types";
+import ScannerComponent from "@/components/Scanner";
 
-export default function Scanner() {
-  return (
-    <div>
-      <h1>Scanner</h1>
-      <p>Scan the QR code to check in.</p>
-      <QrReader constraints={{facingMode: "user"}} onResult={(e) => {
-        if(e?.toString()) {
-          alert(e?.toString())
+export default async function Scanner() {
+  const supabase = createClient<Database>()
+  const {data} = await supabase.from("Admins").select("*")
 
-      }}}/>
-    </div>
-  )
+  if (data && data.length != 0) {
+    return (
+      <ScannerComponent />
+    )
+  } else {
+    return (<h1>No Access</h1>)
+  }
 }

@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "npm i react-qr-reader --legacy-peer-deps  && next dev",
+    "build": "npm i react-qr-reader --legacy-peer-deps && next build",
     "start": "next start",
     "lint": "next lint"
   },
