@@ -11,7 +11,7 @@ export default async function FormPage() {
   const {data: {user}} = await supabase.auth.getUser();
   if (!user) redirect("/")
 
-  const {data, error} = await supabase.from("Guests").select("id, locked")
+  const {data} = await supabase.from("Guests").select("id, locked")
 
   return (
     (data?.length == 0) ? <FormElement /> : !data ? <FormElement /> : data[0].id && !data[0].locked ? redirect("/form/success") : data[0].locked ? (

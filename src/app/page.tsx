@@ -1,6 +1,5 @@
 "use client"
 import {createClient} from "@/utils/supabase/client";
-import {redirect} from "next/navigation";
 
 export default function Home() {
   const supabase = createClient();

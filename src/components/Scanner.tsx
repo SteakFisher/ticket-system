@@ -17,7 +17,7 @@ export default function QRComponent() {
       if(id){
         setIsLoading(true)
         console.log("Fetch")
-        const {data, error} = await supabase.from("Guests").select("scanned").eq("id", id)
+        const {data} = await supabase.from("Guests").select("scanned").eq("id", id)
 
         if (data == null) {
           setIsSuccess(false)
@@ -40,7 +40,7 @@ export default function QRComponent() {
       {
         !id ? (
           <Scanner
-            onResult={(result, error) => {
+            onResult={(result) => {
               if(result){
                 if (result !== id) {
                   setId(result)
