@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
+import {boolean, z} from "zod"
 
 import {
   Select,
@@ -39,7 +39,7 @@ const formSchema = z.object({
     })
     .regex(new RegExp("^\\w+$")),
   altEmail: z.string().email({ message: "Invalid email address" }),
-  isVeg: z.boolean()
+  isVeg: z.string()
 })
 
 export default function FormPage() {
@@ -48,7 +48,7 @@ export default function FormPage() {
     defaultValues: {
       alias: "",
       altEmail: "",
-      isVeg: true,
+      isVeg: "true",
     },
   })
 
@@ -62,10 +62,11 @@ export default function FormPage() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(async (e) => {
         setIsDisabled(true);
-        const {data} = await supabase.from("Guests").insert({alias: e.alias, altEmail: e.altEmail, isVeg: e.isVeg}).select("*")
-        if (data) {
-          router.push("/form/success")
-        }
+        console.log(e)
+        const {data} = await supabase.from("Guests").insert({alias: e.alias, altEmail: e.altEmail, isVeg: e.isVeg as unknown as boolean}).select("*")
+        // if (data) {
+        //   router.push("/form/success")
+        // }
 
       })} className="space-y-8">
         <FormField
@@ -106,18 +107,17 @@ export default function FormPage() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>I am a..</FormLabel>
-              <FormControl>
-                <Select>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="true" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="true">Vegetarian</SelectItem>
-                    <SelectItem value="false">Non-Vegetarian</SelectItem>
-                  </SelectContent>
-                </Select>
-
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Vegetarian" />
+                    </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="true">Vegetarian</SelectItem>
+                  <SelectItem value="false">Non-Vegetarian</SelectItem>
+                </SelectContent>
+              </Select>
               <FormDescription>
                 We (sometimes) care about your opinion.
               </FormDescription>
