@@ -7,9 +7,11 @@ import QRCode from "react-qr-code";
 
 export default async function FormPage() {
   const supabase = createClient<Database>()
-  const {data, error} = await supabase.from("Guests").select("id, locked")
 
-  console.log(data)
+  const {data: {user}} = await supabase.auth.getUser();
+  if (!user) redirect("/")
+
+  const {data, error} = await supabase.from("Guests").select("id, locked")
 
   return (
     (data?.length == 0) ? <FormElement /> : !data ? <FormElement /> : data[0].id && !data[0].locked ? redirect("/form/success") : data[0].locked ? (

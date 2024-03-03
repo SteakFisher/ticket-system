@@ -54,7 +54,14 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  await supabase.auth.getUser()
+  if (request.nextUrl.pathname.startsWith("/auth/callback")) return response
+
+  let {data: {user}} = await supabase.auth.getUser()
+  if (user && request.nextUrl.pathname == "/") {
+    response = NextResponse.redirect(new URL("/form", request.nextUrl.origin))
+  } else if (!user && request.nextUrl.pathname != "/") {
+    response = NextResponse.redirect(new URL("/", request.nextUrl.origin))
+  }
 
   return response
 }
