@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import {boolean, z} from "zod"
+import {z} from "zod"
 
 import {
   Select,
@@ -64,9 +64,9 @@ export default function FormPage() {
         setIsDisabled(true);
         console.log(e)
         const {data} = await supabase.from("Guests").insert({alias: e.alias, altEmail: e.altEmail, isVeg: e.isVeg as unknown as boolean}).select("*")
-        // if (data) {
-        //   router.push("/form/success")
-        // }
+        if (data) {
+          router.push("/form/success")
+        }
 
       })} className="space-y-8">
         <FormField
