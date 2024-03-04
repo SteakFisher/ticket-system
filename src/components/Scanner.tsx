@@ -1,73 +1,53 @@
 "use client"
 
 import { Scanner} from '@yudiel/react-qr-scanner';
-import {useEffect, useState} from "react";
-import {createClient} from "@/utils/supabase/client";
-import {Database} from "../../database.types";
+import {useRouter} from "next/navigation";
+import {useState} from "react";
+
+let id = ""
+
 
 export default function QRComponent() {
-  const [id, setId] = useState<string>("")
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isSuccess, setIsSuccess] = useState<boolean>(false)
+  const [enabled, setEnabled] = useState(true)
+  const [data, setData] = useState<boolean | null>(null)
 
-  const supabase = createClient<Database>()
-
-  useEffect(() => {
-    let fetchData = async () => {
-      if(id){
-        setIsLoading(true)
-        console.log("Fetch")
-        // const {data} = await supabase.from("Guests").select("scanned").eq("id", id)
-        const response = await fetch(`/api/user?id=${id}`)
-        const data = await response.json()
-
-        if (data == null) {
-          setIsSuccess(false)
-        } else if (data[0].scanned == false) {
-          await supabase.from("Guests").update({scanned: true}).eq("id", id)
-          setIsSuccess(true)
-        } else {
-          setIsSuccess(false)
-        }
-
-        setIsLoading(false)
-      }
-    }
-
-    fetchData()
-  }, [supabase, id])
 
   return (
     <>
+      <Scanner
+        components={{
+          audio: false,
+        }}
+        enabled={enabled}
+        onResult={async (result) => {
+          if(result){
+            if (result != id) {
+              id = result
+              const response = await fetch(`http://localhost:3000/api/user?id=${result}`, {cache: "no-cache"})
+              const data = await response.json()
+              setData(data)
+              console.log(data)
+            }
+          }
+        }}
+        onError={(error) => {
+          console.error(error)
+        }}
+      />
       {
-        !id ? (
-          <Scanner
-            onResult={(result) => {
-              if(result){
-                if (result !== id) {
-                  setId(result)
-                }
-              }
-            }}
-          />
-
-        ) : isLoading ? (
-          <h1>Loading...</h1>
-        ) : isSuccess ? (
-          <h1>Success</h1>
-        ) : (
+        data == null ?(
+          <h1>Loading</h1>
+        ) : data == true ? (
           <h1>Already Scanned</h1>
+        ) : (
+          <h1>Success</h1>
         )
       }
-      {
-        id ? (
-          <button onClick={() => {
-            setId("")
-            setIsLoading(false)
-            setIsSuccess(false)
-          }}>Scan Again</button>
-        ) : null
-      }
+      <button onClick={() => {
+        id = ""
+        setData(null)
+        setEnabled(true)}
+      } >Scan again</button>
     </>
   )
 }
