@@ -48,8 +48,10 @@ export default function FormElement() {
         console.log(e)
         const { data: { user }} = await supabase.auth.getUser()
         console.log(user)
-        await supabase.from("Guests").insert({alias: e.alias, altEmail: e.altEmail, isVeg: e.isVeg as unknown as boolean, email: user?.email})
-        router.push("/form/success")
+        const {data} = await supabase.from("Guests").insert({alias: e.alias, altEmail: e.altEmail, isVeg: e.isVeg as unknown as boolean, email: user?.email}).select("*")
+        if (data) {
+          router.push("/form/success")
+        }
 
       })} className="space-y-8">
         <FormField
