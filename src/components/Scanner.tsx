@@ -23,7 +23,7 @@ export default function QRComponent() {
           if(result){
             if (result != id) {
               id = result
-              const response = await fetch(`http://localhost:3000/api/user?id=${result}`, {cache: "no-cache"})
+              const response = await fetch(`${location.origin}/api/user?id=${result}`, {cache: "no-cache"})
               const data = await response.json()
               setData(data)
               console.log(data)
