@@ -17,7 +17,9 @@ export default function QRComponent() {
       if(id){
         setIsLoading(true)
         console.log("Fetch")
-        const {data} = await supabase.from("Guests").select("scanned").eq("id", id)
+        // const {data} = await supabase.from("Guests").select("scanned").eq("id", id)
+        const response = await fetch(`/api/user?id=${id}`)
+        const data = await response.json()
 
         if (data == null) {
           setIsSuccess(false)
@@ -56,6 +58,15 @@ export default function QRComponent() {
         ) : (
           <h1>Already Scanned</h1>
         )
+      }
+      {
+        id ? (
+          <button onClick={() => {
+            setId("")
+            setIsLoading(false)
+            setIsSuccess(false)
+          }}>Scan Again</button>
+        ) : null
       }
     </>
   )
