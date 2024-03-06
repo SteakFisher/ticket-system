@@ -2,7 +2,7 @@ import {Database} from "../../../database.types";
 import {createClient} from "@/utils/supabase/server";
 import {redirect} from "next/navigation";
 import FormElement from "@/components/FormPage";
-import QRCode from "react-qr-code";
+import TicketQR from "@/components/TicketQR";
 
 
 export default async function FormPage() {
@@ -11,15 +11,15 @@ export default async function FormPage() {
   const {data: {user}} = await supabase.auth.getUser();
   if (!user) redirect("/")
 
-  const {data} = await supabase.from("Guests").select("id, locked")
+  const {data} = await supabase.from("Guests").select("id, locked, alias, role")
 
   return (
     (data?.length == 0) ? <FormElement /> : !data ? <FormElement /> : data[0].id && !data[0].locked ? redirect("/form/success") : data[0].locked ? (
-      <div className={"p-6 bg-white"}>
-        <h1>Already Submitted</h1>
-        <p>You&apos;ve already submitted your form. We&apos;ll see you at the event!</p>
-        <QRCode value={data[0].id} />
-      </div>
+      <>
+        <h1>{data[0].alias}</h1>
+        <h1>{data[0].role}</h1>
+        <TicketQR id={data[0].id} />
+      </>
     ) : null
   )
 }
