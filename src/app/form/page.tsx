@@ -18,7 +18,8 @@ export default async function FormPage() {
       <>
         <h1>{data[0].alias}</h1>
         <h1>{data[0].role}</h1>
-        <TicketQR id={data[0].id} />
+        <h1>{data[0].id}</h1>
+        <TicketQR id={data[0].id}/>
       </>
     ) : null
   )
