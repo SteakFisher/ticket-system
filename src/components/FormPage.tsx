@@ -88,7 +88,7 @@ export default function FormElement() {
     };
 
     fetchData();
-  }, []);
+  }, [checkTicket]);
 
   return isLoading ? (
     ""
@@ -167,7 +167,7 @@ export default function FormElement() {
         ) : (
           <>
             <h2 className="text-xl font-semibold">
-              Don't miss out on the fun - reserve your spot now!
+              Don&apos;t miss out on the fun - reserve your spot now!
             </h2>
             <FormField
               control={form.control}
