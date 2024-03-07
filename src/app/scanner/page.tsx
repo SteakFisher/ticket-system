@@ -1,7 +1,7 @@
 import {createClient} from "@/utils/supabase/server";
 import {Database} from "../../../database.types";
 import ScannerComponent from "@/components/Scanner";
-import Error403 from "../../components/ui/Error403";
+import Error from "../../components/ui/Error";
 
 export default async function Scanner() {
   const supabase = createClient<Database>()
@@ -12,6 +12,6 @@ export default async function Scanner() {
       <ScannerComponent />
     )
   } else {
-    return (<Error403 />)
+    return (<Error code="403" text="Forbidden" detail="You don't have permission to access this page"/>)
   }
 }

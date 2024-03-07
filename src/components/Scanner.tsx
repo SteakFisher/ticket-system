@@ -6,6 +6,9 @@ import { useState } from "react";
 import QrScanner from "qr-scanner";
 // import { set } from "react-hook-form";
 import "./Scanner.css";
+import Image from 'next/image'
+
+import logoTechno from "../../public/Kreiva_X_Alfaaz_Techno.png"
 
 let id = "";
 
@@ -52,8 +55,8 @@ export default function QRComponent() {
 
   return (
     <div>
-      <img
-        src="Kreiva_X_Alfaaz_Techno.png"
+      <Image
+        src={logoTechno}
         id="TechnoLogo"
         alt="Kreiva_X_Alfaaz_Techno"
       />
