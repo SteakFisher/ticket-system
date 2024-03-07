@@ -158,7 +158,7 @@ export default function FormElement() {
               <h2>
               Congratulations! Your ticket has been successfully generated. You&apos;ll receive access to your ticket approximately one week before the event. In the meantime, why not start practicing some killer dance moves to dazzle your friends on the dance floor?
               </h2>
-              <h3>BOOKING ID: {userdata[0].id}</h3>
+              <h3>BOOKING ID: <br />{userdata[0].id}</h3>
             </>
           ) : (
             ""

@@ -41,6 +41,10 @@
   line-height: 1.3em;
 }
 
+.ticketForm h3 {
+  text-align: center;
+}
+
 .longInput {
   position: relative;
   height: fit-content;
