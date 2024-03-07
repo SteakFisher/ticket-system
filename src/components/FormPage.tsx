@@ -35,10 +35,10 @@ const formSchema = z.object({
   alias: z
     .string()
     .min(2, {
-      message: "Name must be at least 2 characters.",
+      message: "Alias must be at least 2 characters.",
     })
     .max(12, {
-      message: "Name must be at most 12 characters.",
+      message: "Alias must be at most 12 characters.",
     })
     .regex(new RegExp("^\\w+$")),
   altEmail: z.string().email({ message: "Invalid email address" }),
@@ -157,7 +157,7 @@ export default function FormElement() {
           userdata ? (
             <>
               <h2>
-                Success! Your ticket is generated. You'll be able to see your
+                Success! Your ticket is generated. You&apos;ll be able to see your
                 ticket about a week before the event. Till then prepare some
                 dance moves to woo your mates on the dance floor!
               </h2>
@@ -179,7 +179,7 @@ export default function FormElement() {
                   <FormItem
                     className={`longInput ${aliasValue ? "has-value" : ""}`}
                   >
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>Alias</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
