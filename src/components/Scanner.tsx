@@ -3,10 +3,7 @@
 import { useState } from "react";
 import QrScanner from "qr-scanner";
 import "./Scanner.css";
-import toast, { Toaster } from "react-hot-toast";
-import Image from 'next/image'
-
-import logoTechno from "../../public/Kreiva_X_Alfaaz_Techno.png"
+import Image from "next/image";
 
 let id = "";
 
@@ -51,18 +48,14 @@ export default function QRComponent() {
     qrScanner.start();
   };
 
-  const handleError = (error: any) => {
-    toast.error(error);
-    return " ";
-  }
-
   return (
     <div>
-      <Toaster position="bottom-center" reverseOrder={false} />
       <Image
-        src={logoTechno}
+        src="/Kreiva_X_Alfaaz_Techno.png"
         id="TechnoLogo"
         alt="Kreiva_X_Alfaaz_Techno"
+        height={100}
+        width={300}
       />
       <div className="scannerFrame"></div>
       {enabled && (
@@ -70,11 +63,11 @@ export default function QRComponent() {
           {data == null ? (
             <div></div>
           ) : data == true ? (
-            handleError("Error: Ticket Already Scanned.")
+            <div>{alert("Error: Ticket Already Scanned.") + ""}</div>
           ) : data == false ? (
             <h1>Success!</h1>
           ) : (
-            handleError("Error: Internal Server Error.")
+            <div>{alert("Error: Internal Server Error.") + ""}</div>
           )}
         </div>
       )}

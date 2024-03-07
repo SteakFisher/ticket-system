@@ -69,26 +69,25 @@ export default function FormElement() {
 
   const [isDisabled, setIsDisabled] = useState(false);
 
-  const checkTicket = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    const { data } = await supabase.from("Guests").select("*");
-    if (data) {
-      if (data.length !== 0) {
-        setData(data);
-      }
-    }
-    setIsLoading(false);
-  };
-
   useEffect(() => {
+    const checkTicket = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const { data } = await supabase.from("Guests").select("*");
+      if (data) {
+        if (data.length !== 0) {
+          setData(data);
+        }
+      }
+      setIsLoading(false);
+    };
     const fetchData = async () => {
       await checkTicket();
     };
 
     fetchData();
-  }, [checkTicket]);
+  }, [supabase]);
 
   return isLoading ? (
     ""
