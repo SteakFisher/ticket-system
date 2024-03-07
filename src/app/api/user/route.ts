@@ -1,7 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {type CookieOptions, createServerClient} from "@supabase/ssr";
 import {Database} from "../../../../database.types";
-import {shouldUseURLPlugin} from "next/dist/build/webpack/loaders/css-loader/src/utils";
 
 export const dynamic = "force-dynamic"
 
