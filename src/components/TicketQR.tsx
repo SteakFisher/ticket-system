@@ -8,8 +8,8 @@ export default function TicketQR({ id }: { id: string}) {
       removeQrCodeBehindLogo={true}
       logoImage={"/Kreiva_X_Alfaaz_Red.png"}
       logoOpacity={1}
-      logoHeight={200}
-      logoWidth={200}
+      logoHeight={100}
+      logoWidth={100}
       logoPadding={1}
       logoPaddingStyle={"circle"}
       size={512}

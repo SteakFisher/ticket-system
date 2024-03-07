@@ -1,6 +1,7 @@
 import {createClient} from "@/utils/supabase/server";
 import {Database} from "../../../database.types";
 import ScannerComponent from "@/components/Scanner";
+import Error403 from "../../components/ui/Error403";
 
 export default async function Scanner() {
   const supabase = createClient<Database>()
@@ -11,6 +12,6 @@ export default async function Scanner() {
       <ScannerComponent />
     )
   } else {
-    return (<h1>No Access</h1>)
+    return (<Error403 />)
   }
 }
