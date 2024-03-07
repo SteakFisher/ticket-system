@@ -1,10 +1,7 @@
 "use client";
 
-// import { Scanner } from "@yudiel/react-qr-scanner";
-// import { useRouter } from "next/navigation";
 import { useState } from "react";
 import QrScanner from "qr-scanner";
-// import { set } from "react-hook-form";
 import "./Scanner.css";
 
 let id = "";
