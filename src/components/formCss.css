@@ -1,5 +1,6 @@
 /* formCss.css */
-.ticketForm {
+.ticketForm,
+.loginForm {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,18 +21,30 @@
   min-height: 400px;
 }
 
+.loginForm {
+  max-width: 410px;
+  min-width: 300px;
+  padding-bottom: 25px;
+}
+
 .ticketForm img {
   height: 120px;
   margin-top: 20px;
 }
 
-.ticketForm h1 {
+.ticketForm h1,
+.loginForm h1 {
   font-size: 1.3em;
   margin-top: 25px !important;
   font-weight: 500;
 }
 
-.ticketForm h2 {
+.loginForm h1 {
+  font-weight: 400;
+}
+
+.ticketForm h2,
+.loginForm h2 {
   font-weight: 400;
   width: 50%;
   font-size: 1em;
@@ -39,6 +52,36 @@
   margin-bottom: 30px !important;
   text-align: center;
   line-height: 1.3em;
+}
+
+.loginForm h2 {
+  font-weight: 300;
+  font-size: 1.2em;
+  margin-top: 0 !important;
+}
+
+.loginForm h3 {
+  font-weight: 300;
+  font-size: 1em;
+  text-align: center;
+  margin-top: -15px !important;
+}
+
+.loginBtn {
+  display: flex;
+  justify-content: space-between;
+  width: 250px;
+  align-items: center;
+  background: #7f0019;
+  color: #fff;
+  padding: 5px 15px 5px 5px;
+  border-radius: 50px;
+  margin-top: 50px;
+  font-size: 1.1em;
+}
+
+.loginBtn span {
+  margin-left: 10px;
 }
 
 .ticketForm h3 {
@@ -121,13 +164,17 @@
   border: 3px solid #7f0019;
   height: 200px;
   aspect-ratio: 1;
-  top: -20%;
+  top: -30%;
   left: -59%;
   margin: auto;
   border-radius: 50%;
   border-right-width: 0;
   border-top-width: 0;
   animation: spin 1s linear infinite;
+}
+
+.loginForm .loader {
+  top: -30%;
 }
 
 .followBackground {
@@ -139,6 +186,10 @@
   border-top: 1px solid #d4d4d4;
   margin-top: 50px !important;
   position: relative;
+}
+
+.followBackground {
+  margin-top: 70px !important;
 }
 
 .follow {
@@ -161,8 +212,19 @@
   color: #7f0019;
 }
 
+.loginForm .socials {
+  margin-top: 20px !important;
+}
+
 .socials svg:hover {
   color: #635dff;
+}
+
+.logoTall.inLoader {
+  position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
 }
 
 @keyframes spin {
@@ -184,5 +246,23 @@
   }
   .socials {
     padding-bottom: 30px !important;
+  }
+
+  .loginForm .socials {
+    padding-bottom: 0 !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .loginForm {
+    box-shadow: none;
+    height: 100%;
+    width: 100%;
+    padding-top: 130px;
+    /* justify-content: center; */
+  }
+
+  .followBackground {
+    margin-top: 120px !important;
   }
 }
