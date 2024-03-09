@@ -183,6 +183,16 @@ export default function FormElement({ admin, id }: { admin?: boolean; id?: strin
               Congratulations! Your ticket has been successfully generated. You&apos;ll receive access to your ticket approximately one week before the event. In the meantime, why not start practicing some killer dance moves to dazzle your friends on the dance floor?
               </h2>
               <h3>BOOKING ID: <br />{userdata[0].id}</h3>
+              {
+                admin ? (
+                  <Button
+                    onClick={() => {
+                      setData(null)
+                      setIsDisabled(false)
+                      router.refresh()
+                    }}>New Ticket</Button>
+                ) : null
+              }
             </>
           ) : (
             ""
