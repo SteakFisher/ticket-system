@@ -47,8 +47,10 @@ const formSchema = z.object({
 
 export default function FormElement({ admin, id }: { admin?: boolean; id?: string }) {
   const [loading, setLoading] = useState(false);
-  const [userdata, setData] = useState<any>(null);
+  const [userdata, setData] = useState<any>(id ? [ { id } ] : null);
   const [isLoading, setIsLoading] = useState(true);
+  console.log(userdata)
+
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -86,9 +88,9 @@ export default function FormElement({ admin, id }: { admin?: boolean; id?: strin
       await checkTicket();
     };
 
-    if (!admin) fetchData();
+    if (!admin && !id) fetchData();
     else setIsLoading(false);
-  }, [supabase, admin]);
+  }, [supabase, admin, id]);
 
   return isLoading ? (
     ""

@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 export default function TicketPage(props: {
-  data: { id: string; locked: boolean; alias: string | null; role: string }[];
+  data: { id: string; locked: boolean; alias: string; role: string }[];
 }) {
   return (
     <>

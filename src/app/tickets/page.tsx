@@ -1,6 +1,5 @@
 import {createClient} from "@/utils/supabase/server";
 import {Database} from "../../../database.types";
-import ScannerComponent from "@/components/Scanner";
 import Error from "@/components/ui/Error";
 import Link from "next/link";
 
@@ -11,14 +10,26 @@ export default async function Ticket() {
   if (data && data.length != 0) {
     const { data } = await supabase
       .from("Guests")
-      .select("id, locked, alias, role");
+      .select("id, alias, altEmail");
 
 
 
     return (
       <>
+        {
+          data?.map((guest) => {
+            return (
+              <Link href={`/form?id=${guest.id}&admin=true`} key={guest.id}>
+                <div key={guest.id}>
+                  <h1>{guest.alias}</h1>
+                  <h1>{guest.altEmail}</h1>
+                </div>
+              </Link>
+            )
+          })
+        }
         <button>
-          <Link href="/form">Form</Link>
+          <Link href="/form?admin=true">Form</Link>
         </button>
       </>
     )
