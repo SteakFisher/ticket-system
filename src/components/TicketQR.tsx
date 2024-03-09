@@ -5,13 +5,13 @@ import {QRCode} from "react-qrcode-logo";
 export default function TicketQR({ id }: { id: string}) {
   return (
     <QRCode
-      removeQrCodeBehindLogo={true}
+      removeQrCodeBehindLogo={false}
       logoImage={"/Kreiva_X_Alfaaz_Red.png"}
       logoOpacity={1}
-      logoHeight={100}
-      logoWidth={100}
-      logoPadding={1}
-      logoPaddingStyle={"circle"}
+      logoHeight={200}
+      logoWidth={200}
+      // logoPadding={1}
+      // logoPaddingStyle={"circle"}
       size={512}
       value={id}
       ecLevel={"H"}

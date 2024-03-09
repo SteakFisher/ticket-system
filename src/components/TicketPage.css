@@ -33,7 +33,8 @@
   border-radius: 12px;
   background: #fff;
   flex-wrap: wrap;
-  overflow: hidden;
+  flex-flow: column;
+  overflow-x: hidden;
   box-shadow: 0px 12px 47px 0px rgba(0, 0, 0, 0.248);
 }
 .img-container {
@@ -41,7 +42,6 @@
   justify-content: center;
   align-items: center;
   width: 42%;
-  height: var(--h1);
 }
 .img-container img {
   width: 33vw;
@@ -56,10 +56,9 @@
   line-height: 25px;
   font-style: none;
   width: 58%;
-  height: var(--h1);
   overflow: hidden;
   white-space: wrap;
-  padding:0 5px;
+  padding: 0 5px;
 }
 .event-details p {
   padding-left: 5px;
@@ -126,13 +125,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-flow: column wrap;
+  flex-flow: column;
   width: 100%;
   height: var(--h3);
 }
 .qr-ticket .name {
   margin: 26px 0 15px 0;
-  font-size: 1.9rem;
+  font-size: 1.9rem !important;
   font-weight: 500;
   color: #90011d;
 }
@@ -147,8 +146,8 @@
   opacity: 0;
 }
 #react-qrcode-logo {
-  height:60vw !important;
-  width:60vw !important;
+  height: 60vw !important;
+  width: 60vw !important;
   max-height: 210px !important;
   max-width: 210px !important;
   cursor: pointer;
@@ -248,17 +247,17 @@
   align-items: center;
   margin-bottom: 47px;
   padding-right: 9px;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
   flex-shrink: 0;
 }
 .ticket-pricing .head {
   display: inline-flex;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
   align-items: center;
   font-size: 1.29rem;
   flex-shrink: 0;
 }
-.ticket-pricing .total-amount{
+.ticket-pricing .total-amount {
   margin-right: 15px;
 }
 .ticket-pricing .saved {
@@ -299,10 +298,10 @@
     justify-content:top;
   } */
   .ticket-container {
-    justify-content:unset;
+    justify-content: unset;
     flex-direction: column;
-    margin-top:calc(25px + 2vw);
-    min-height:calc(720px + 250px + 20vh);
+    margin-top: calc(25px + 2vw);
+    min-height: calc(720px + 250px + 20vh);
   }
   .ticket-booking {
     width: 90vw;
@@ -346,22 +345,22 @@
 }
 
 @media only screen and (max-width: 381px) {
-    .event-details .heading {
-        font-size: 1.4rem;
-    }
-    .ticket-pricing {
-        font-size:1.09rem;
-    }
-    .ticket-pricing .head {
-        font-size:1.09rem;
-    }
-    .ticket-pricing p {
-        font-size: 0.9rem;
-    }
-    .event-details .heading{
-        font-size: 1.2rem;
-    }
-    .event-details p {
-        font-size: 0.8rem;
-    }
+  .event-details .heading {
+    font-size: 1.4rem;
+  }
+  .ticket-pricing {
+    font-size: 1.09rem;
+  }
+  .ticket-pricing .head {
+    font-size: 1.09rem;
+  }
+  .ticket-pricing p {
+    font-size: 0.9rem;
+  }
+  .event-details .heading {
+    font-size: 1.2rem;
+  }
+  .event-details p {
+    font-size: 0.8rem;
+  }
 }
