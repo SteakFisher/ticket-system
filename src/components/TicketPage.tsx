@@ -15,7 +15,7 @@ export default function TicketPage(props: {
       <div className="body">
         <div className="ticket-container">
           <div className="ticket-booking">
-            <div style={{ display: "flex", flexFlow: "row", margin: "30px 0" }}>
+            <div style={{ display: "flex", flexFlow: "row", margin: "15px 0 30px 0" }}>
               <div className="img-container">
                 <img
                   src="krevia_x_alfaaz_Poster.png"
@@ -43,14 +43,13 @@ export default function TicketPage(props: {
             <div className="qr-ticket">
               <div className="name">{props.data[0].alias}</div>
               <div className="ticket-count">
-                1 Ticket ({props.data[0].role})
+                1 Ticket ({props.data[0].role.toLowerCase()})
               </div>
               <label className="qr-code">
                 <input type="checkbox" className="switch-input" />
                 <TicketQR id={props.data[0].id.toString()} />
               </label>
-              {/* <!-- <img src="src/qr_code.svg" alt="loading..." className="qr-code" width="100px"/> --> */}
-              <div className="booking-id">BOOKING ID: {props.data[0].id}</div>
+              <div className="booking-id">{props.data[0].id}</div>
             </div>
             <div className="follow-us">
               <span className="hr-line"></span>FOLLOW US
@@ -117,10 +116,6 @@ export default function TicketPage(props: {
             </div>
           </div>
         </div>
-        {/* <h1>{props.data[0].alias}</h1>
-      <h1>{props.data[0].role}</h1>
-      <h1>{props.data[0].id}</h1>
-      <TicketQR id={props.data[0].id.toString()} /> */}
       </div>
     </>
   );
