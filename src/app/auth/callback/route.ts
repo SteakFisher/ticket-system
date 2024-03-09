@@ -28,7 +28,13 @@ export async function GET(request: Request) {
         },
       }
     )
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+    const { data: role } = await supabase.from("Admins").select("id")
+
+    if (role && role.length !== 0) {
+      return NextResponse.redirect(`${origin}/tickets`)
+    }
+
     if (!error) {
       return NextResponse.redirect(`${origin}${next}`)
     }

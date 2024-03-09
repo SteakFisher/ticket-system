@@ -45,7 +45,7 @@ const formSchema = z.object({
   isVeg: z.string(),
 });
 
-export default function FormElement() {
+export default function FormElement({ admin, id }: { admin?: boolean; id?: string }) {
   const [loading, setLoading] = useState(false);
   const [userdata, setData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -86,8 +86,9 @@ export default function FormElement() {
       await checkTicket();
     };
 
-    fetchData();
-  }, [supabase]);
+    if (!admin) fetchData();
+    else setIsLoading(false);
+  }, [supabase, admin]);
 
   return isLoading ? (
     ""
@@ -98,27 +99,50 @@ export default function FormElement() {
         onSubmit={form.handleSubmit(async (e) => {
           setLoading(true);
           setIsDisabled(true);
-          console.log(e);
-          const {
-            data: { user },
-          } = await supabase.auth.getUser();
-          const { data } = await supabase
-            .from("Guests")
-            .insert({
-              alias: e.alias,
-              altEmail: e.altEmail,
-              isVeg: e.isVeg as unknown as boolean,
-              email: user?.email,
-            })
-            .select("*");
+          if (!admin) {
+            const {
+              data: { user },
+            } = await supabase.auth.getUser();
+            const { data } = await supabase
+              .from("Guests")
+              .insert({
+                alias: e.alias,
+                altEmail: e.altEmail,
+                isVeg: e.isVeg as unknown as boolean,
+                email: user?.email,
+              })
+              .select("id");
 
-          if (data) {
-            setData(data);
+            if (data) {
+              setData(data);
+            } else {
+              toast.error(
+                "An error occurred. Please try again or contact administrator."
+              );
+            }
           } else {
-            toast.error(
-              "An error occurred. Please try again or contact administrator."
+            const {
+              data: { user },
+            } = await supabase.auth.getUser();
+
+            const response = await fetch(
+              `${location.origin}/api/user`,
+              {
+                cache: "no-cache",
+                method: "POST",
+                body: JSON.stringify({
+                  alias: e.alias,
+                  altEmail: e.altEmail,
+                  isVeg: e.isVeg as unknown as boolean,
+                  email: user?.email
+                })
+              },
             );
+
+            const data = await response.json();
+            setData(data);
           }
+
           setLoading(false);
         })}
         className="space-y-8 ticketForm"
