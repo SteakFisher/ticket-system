@@ -15,7 +15,13 @@ export default function TicketPage(props: {
       <div className="body">
         <div className="ticket-container">
           <div className="ticket-booking">
-            <div style={{ display: "flex", flexFlow: "row", margin: "15px 0 30px 0" }}>
+            <div
+              style={{
+                display: "flex",
+                flexFlow: "row",
+                margin: "15px 0 30px 0",
+              }}
+            >
               <div className="img-container">
                 <img
                   src="krevia_x_alfaaz_Poster.png"
@@ -35,7 +41,7 @@ export default function TicketPage(props: {
               <div></div>
               <div className="rectangle-nav location">
                 <a href="https://maps.google.com" target="_blank">
-                  Tap for location directions
+                  Tap for venue directions
                 </a>
               </div>
               <div></div>
@@ -43,7 +49,11 @@ export default function TicketPage(props: {
             <div className="qr-ticket">
               <div className="name">{props.data[0].alias}</div>
               <div className="ticket-count">
-                1 Ticket ({props.data[0].role.toLowerCase()})
+                1 Ticket (
+                {props.data[0]?.role
+                  ? props.data[0].role.toLowerCase()
+                  : "participant"}
+                )
               </div>
               <label className="qr-code">
                 <input type="checkbox" className="switch-input" />
