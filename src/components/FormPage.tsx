@@ -27,9 +27,10 @@ import { Database } from "../../database.types";
 import "./formCss.css";
 import Socials from "@/components/ui/Socials";
 import toast, { Toaster } from "react-hot-toast";
-import Image from 'next/image'
+import Image from "next/image";
+import Link from "next/link";
 
-import logoTall from "../../public/KreivaXAlfaazLogo_tall.png"
+import logoTall from "../../public/KreivaXAlfaazLogo_tall.png";
 
 const formSchema = z.object({
   alias: z
@@ -45,12 +46,17 @@ const formSchema = z.object({
   isVeg: z.string(),
 });
 
-export default function FormElement({ admin, id }: { admin?: boolean; id?: string }) {
+export default function FormElement({
+  admin,
+  id,
+}: {
+  admin?: boolean;
+  id?: string;
+}) {
   const [loading, setLoading] = useState(false);
-  const [userdata, setData] = useState<any>(id ? [ { id } ] : null);
+  const [userdata, setData] = useState<any>(id ? [{ id }] : null);
   const [isLoading, setIsLoading] = useState(true);
-  console.log(userdata)
-
+  console.log(userdata);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -127,19 +133,16 @@ export default function FormElement({ admin, id }: { admin?: boolean; id?: strin
               data: { user },
             } = await supabase.auth.getUser();
 
-            const response = await fetch(
-              `${location.origin}/api/user`,
-              {
-                cache: "no-cache",
-                method: "POST",
-                body: JSON.stringify({
-                  alias: e.alias,
-                  altEmail: e.altEmail,
-                  isVeg: e.isVeg as unknown as boolean,
-                  email: user?.email
-                })
-              },
-            );
+            const response = await fetch(`${location.origin}/api/user`, {
+              cache: "no-cache",
+              method: "POST",
+              body: JSON.stringify({
+                alias: e.alias,
+                altEmail: e.altEmail,
+                isVeg: e.isVeg as unknown as boolean,
+                email: user?.email,
+              }),
+            });
 
             const data = await response.json();
             setData(data);
@@ -169,7 +172,7 @@ export default function FormElement({ admin, id }: { admin?: boolean; id?: strin
             className="loader"
             style={{ display: `${loading ? "block" : "none"}` }}
           ></div>
-          <Image src={logoTall} alt="logo" height="120"/>
+          <Image src={logoTall} alt="logo" height="120" />
         </div>
 
         <h1
@@ -182,19 +185,42 @@ export default function FormElement({ admin, id }: { admin?: boolean; id?: strin
           userdata ? (
             <>
               <h2>
-              Congratulations! Your ticket has been successfully generated. You&apos;ll receive access to your ticket approximately one week before the event. In the meantime, why not start practicing some killer dance moves to dazzle your friends on the dance floor?
+                Congratulations! Your ticket has been successfully generated.
+                You&apos;ll receive access to your ticket approximately one week
+                before the event. In the meantime, why not start practicing some
+                killer dance moves to dazzle your friends on the dance floor?
               </h2>
-              <h3>BOOKING ID: <br />{userdata[0].id}</h3>
-              {
-                admin ? (
+              <h3>
+                BOOKING ID: <br />
+                {userdata[0].id}
+              </h3>
+              {admin ? (
+                <>
                   <Button
+                    className="ticketButton"
+                    style={{ width: "180px", height: "40px" }}
                     onClick={() => {
-                      setData(null)
-                      setIsDisabled(false)
-                      router.refresh()
-                    }}>New Ticket</Button>
-                ) : null
-              }
+                      setData(null);
+                      setIsDisabled(false);
+                      router.refresh();
+                    }}
+                  >
+                    New Ticket
+                  </Button>
+                  <br />
+                  <button
+                    className="ticketButton"
+                    style={{
+                      width: "180px",
+                      height: "40px",
+                      color: "#fff",
+                      marginTop: "-15px",
+                    }}
+                  >
+                    <Link href="/tickets">View Tickets</Link>
+                  </button>
+                </>
+              ) : null}
             </>
           ) : (
             ""
