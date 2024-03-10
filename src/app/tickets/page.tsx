@@ -15,7 +15,7 @@ export default async function Ticket() {
   if (data && data.length != 0) {
     const { data } = await supabase
       .from("Guests")
-      .select("id, alias, altEmail");
+      .select("id, alias, altEmail, role");
 
     return (
       <div className="tickets">
@@ -28,7 +28,7 @@ export default async function Ticket() {
         </div>
         <div className="ticketsList">
           <div className="ticketsListHeader">
-            <h1>Your Tickets</h1>
+            <h1>Your Bookings</h1>
             <FontAwesomeIcon icon={faArrowTurnDown} />
           </div>
           {data?.map((guest) => {
@@ -36,7 +36,8 @@ export default async function Ticket() {
               <div className="ticketLink" key={guest.id}>
                 <Link href={`/form?id=${guest.id}&admin=true`}>
                   <h1>
-                    {guest.alias} ({guest.altEmail})
+                    {guest.alias} ({guest.altEmail}) ~ 
+                    {guest.role ? " " + guest.role.toLowerCase() : " participant"}
                   </h1>
                 </Link>
               </div>
