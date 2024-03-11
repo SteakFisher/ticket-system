@@ -1,0 +1,44 @@
+import Image from "next/image";
+import logoTall from "../../public/KreivaXAlfaazLogo_tall.png";
+import "./formCss.css";
+
+export default function Success({ id }: { id: string; }) {
+  return (
+    <div>
+      <form
+        className="space-y-8 ticketForm"
+      >
+        <div
+          style={
+            {position: "relative"}
+          }
+        >
+          <div
+            className="loader"
+            style={{display: "none"}}
+          ></div>
+          <Image src={logoTall} alt="logo" height="120"/>
+        </div>
+
+        <h1
+          className="text-3xl font-bold"
+          style={{display: `${"block"}`}}
+        >
+          Kreiva X Alfaaz
+        </h1>
+        <>
+          <h2>
+            Congratulations! Your ticket has been successfully generated.
+            You&apos;ll receive access to your ticket approximately one week
+            before the event. In the meantime, why not start practicing some
+            killer dance moves to dazzle your friends on the dance floor?
+          </h2>
+          <h3>
+            BOOKING ID: <br />
+            {id}
+          </h3>
+        </>
+      </form>
+    </div>
+)
+}

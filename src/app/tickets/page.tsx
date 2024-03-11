@@ -34,7 +34,7 @@ export default async function Ticket() {
           {data?.map((guest) => {
             return (
               <div className="ticketLink" key={guest.id}>
-                <Link href={`/form?id=${guest.id}&admin=true`}>
+                <Link href={`/form?id=${guest.id}`}>
                   <h1>
                     {guest.alias} ({guest.altEmail}) ~ 
                     {guest.role ? " " + guest.role.toLowerCase() : " participant"}

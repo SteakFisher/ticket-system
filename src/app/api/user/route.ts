@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
-import {type CookieOptions, createServerClient} from "@supabase/ssr";
 import {Database} from "../../../../database.types";
+import {createClient} from "@/utils/supabase/server";
 
 export const dynamic = "force-dynamic"
 
@@ -11,55 +11,43 @@ export async function GET(request: NextRequest) {
     },
   })
 
-
-  const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SERVICE_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return request.cookies.get(name)?.value
-        },
-        set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value,
-            ...options,
-          })
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          })
-          response.cookies.set({
-            name,
-            value,
-            ...options,
-          })
-        },
-        remove(name: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value: '',
-            ...options,
-          })
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          })
-          response.cookies.set({
-            name,
-            value: '',
-            ...options,
-          })
-        },
-      },
-    }
-  )
-
   const searchParams = request.nextUrl.searchParams
   const id = searchParams.get('id')
+
+  if (request.nextUrl.searchParams.get("notAdmin") === "true"){
+    let resp = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/Guests?id=eq.${id}&select=id,locked,alias,role,auth_id`, {
+      headers: {
+        "apikey": process.env.SERVICE_KEY!,
+        "Authorization": `Bearer ${process.env.SERVICE_KEY!}`,
+      }
+    })
+    let ticketData = await resp.json()
+
+    let response = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/Admins?select=*`, {
+      headers: {
+        "apikey": process.env.SERVICE_KEY!,
+        "Authorization": `Bearer ${process.env.SERVICE_KEY!}`,
+      }
+    })
+    let adminData = await response.json()
+
+     for (const admin of adminData){
+      if (admin.id === ticketData[0].auth_id) {
+        return NextResponse.json([{
+          id: ticketData[0].id,
+          locked: ticketData[0].locked,
+          alias: ticketData[0].alias,
+          role: ticketData[0].role
+        }], {status: 200})
+      }
+    }
+
+    return NextResponse.json({ error: "No access"}, {status: 400})
+  }
+
+
+  const supabase = createClient()
+
 
   const {data: admin} = await supabase.from("Admins").select("*")
   if (!admin || admin.length < 1) {
@@ -107,51 +95,7 @@ export async function POST(request: NextRequest) {
     },
   })
 
-  const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SERVICE_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return request.cookies.get(name)?.value
-        },
-        set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value,
-            ...options,
-          })
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          })
-          response.cookies.set({
-            name,
-            value,
-            ...options,
-          })
-        },
-        remove(name: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value: '',
-            ...options,
-          })
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          })
-          response.cookies.set({
-            name,
-            value: '',
-            ...options,
-          })
-        },
-      },
-    }
-  )
+  const supabase = createClient<Database>()
 
   const {data: admin} = await supabase.from("Admins").select("*")
   if (!admin || admin.length < 1) {
