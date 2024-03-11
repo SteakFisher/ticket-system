@@ -273,6 +273,6 @@
 
 @media screen and (max-height: 820px) and (max-width: 650px) {
   .ticketForm {
-    height: calc(1000px - 20vh);
+    height: calc(1100px - 20vh);
   }
 }
