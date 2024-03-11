@@ -22,6 +22,7 @@
   align-items: center;
   max-width: 1200px;
   width: 1200px;
+  margin-left: 10%;
 }
 .ticket-booking {
   display: inline-flex;
@@ -230,7 +231,7 @@
 .ticket-pricing {
   width: 40vw;
   max-width: 452px;
-  height: 40vh;
+  height: 50vh;
   max-height: 235px;
   line-height: 2.2;
   font-size: 1.23rem;
@@ -303,7 +304,8 @@
     justify-content: unset;
     flex-direction: column;
     margin-top: calc(25px + 2vw);
-    min-height: calc(720px + 250px + 20vh);
+    min-height: calc(720px + 300px + 20vh);
+    margin-left: 0;
   }
   .ticket-booking {
     width: 90vw;

@@ -4,9 +4,10 @@ import { useState } from "react";
 import QrScanner from "qr-scanner";
 import "./Scanner.css";
 import toast, { Toaster } from "react-hot-toast";
-import Image from 'next/image'
+import Image from "next/image";
 
-import logoTechno from "../../public/Kreiva_X_Alfaaz_Techno.png"
+import logoTechno from "../../public/Kreiva_X_Alfaaz_Techno.png";
+import Bottombar from "@/components/ui/bottomBar";
 
 let id = "";
 
@@ -33,7 +34,6 @@ export default function QRComponent() {
             try {
               const data = await response.json();
               setData(data);
-              console.log(data);
             } catch (e) {
               console.error(e);
               setData("Error");
@@ -54,39 +54,51 @@ export default function QRComponent() {
   const handleError = (error: any) => {
     toast.error(error);
     return " ";
-  }
+  };
 
   return (
-    <div>
-      <Toaster position="bottom-center" reverseOrder={false} />
-      <Image
-        src="/Kreiva_X_Alfaaz_Techno.png"
-        id="TechnoLogo"
-        alt="Kreiva_X_Alfaaz_Techno"
-        height={100}
-        width={300}
-      />
-      <div className="scannerFrame"></div>
-      {enabled && (
-        <div className="currentStatus">
-          {data == null ? (
-            <div></div>
-          ) : data == true ? (
-            handleError("Error: Ticket Already Scanned.")
-          ) : data == false ? (
-            <h1>Success!</h1>
-          ) : (
-            handleError("Error: Internal Server Error.")
-          )}
-        </div>
-      )}
-      {enabled && <div className="fakeScanner"></div>}
-      {enabled && (
-        <button onClick={scan} id="startScanning">
-          Start Scanning
-        </button>
-      )}
-    </div>
+    <>
+      <div
+        style={{
+          display: "flex",
+          flexFlow: "column",
+          paddingBottom: "130px",
+          maxWidth: "650px",
+          margin: "auto",
+          minWidth: "350px",
+        }}
+      >
+        <Toaster position="bottom-center" reverseOrder={false} />
+        <Image
+          src="/Kreiva_X_Alfaaz_Techno.png"
+          id="TechnoLogo"
+          alt="Kreiva_X_Alfaaz_Techno"
+          height={100}
+          width={300}
+        />
+        <div className="scannerFrame"></div>
+        {enabled && (
+          <div className="currentStatus">
+            {data == null ? (
+              <div></div>
+            ) : data == true ? (
+              handleError("Error: Ticket Already Scanned.")
+            ) : data == false ? (
+              <h1>Success!</h1>
+            ) : (
+              handleError("Error: Internal Server Error.")
+            )}
+          </div>
+        )}
+        {enabled && <div className="fakeScanner"></div>}
+        {enabled && (
+          <button onClick={scan} id="startScanning">
+            Start Scanning
+          </button>
+        )}
+      </div>
+      <Bottombar admin={true} active="scanner" />
+    </>
   );
 
   // return (
