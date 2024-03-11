@@ -23,9 +23,9 @@ export default async function FormPage({
     data: { user },
   } = await supabase.auth.getUser();
   if (!user && !searchParams?.id) redirect("/");
-
+  const {data: admin} = await supabase.from("Admins").select("*")
   if (searchParams?.admin) {
-    const {data: admin} = await supabase.from("Admins").select("*")
+    
     if (!admin || admin.length < 1) {
       return <Error code="403" text="Forbidden" detail="You don't have permission to access this page"/>
     }
@@ -41,7 +41,7 @@ export default async function FormPage({
         .eq("id", searchParams.id);
 
       if (ticketData && ticketData.length > 0 && ticketData[0].locked == true) return <TicketPage data={ticketData} />;
-      else if (ticketData && ticketData.length > 0 && ticketData[0].locked == false) return <Success id={ticketData[0].id}/>
+      else if (ticketData && ticketData.length > 0 && ticketData[0].locked == false) return <Success id={ticketData[0].id} loggedIn={true} isAdmin={true}/>
       else return <Error code="403" text="Forbidden" detail="You don't have permission to access this page"/>
     }
   } else if (searchParams?.id) {
@@ -54,7 +54,7 @@ export default async function FormPage({
     const ticketData = await resp.json();
 
     if (ticketData && ticketData.length > 0 && ticketData[0].locked == true) return <TicketPage data={ticketData} />;
-    else if (ticketData && ticketData.length > 0 && ticketData[0].locked == false) return <Success id={ticketData[0].id}/>
+    else if (ticketData && ticketData.length > 0 && ticketData[0].locked == false) return <Success id={ticketData[0].id} loggedIn={!!user} isAdmin={(admin && admin.length >= 1) || false}/>
     else return <Error code="403" text="Forbidden" detail="You don't have permission to access this page"/>
   }
 

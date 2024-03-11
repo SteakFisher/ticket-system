@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChain, faArrowTurnDown } from "@fortawesome/free-solid-svg-icons";
 import logoTechno from "../../../public/Kreiva_X_Alfaaz_Techno.png";
 import "./page.css";
+import Bottombar from "@/components/ui/bottomBar";
 
 export default async function Ticket() {
   const supabase = createClient<Database>();
@@ -44,6 +45,7 @@ export default async function Ticket() {
             );
           })}
         </div>
+        <Bottombar admin={true} active="tickets" />
       </div>
     );
   } else {

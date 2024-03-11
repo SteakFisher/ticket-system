@@ -1,0 +1,186 @@
+.bottomBarBack {
+  position: fixed;
+  width: 100%;
+  height: 80px;
+  background: linear-gradient(0deg, white, #ffffff00);
+  bottom: 70px;
+  z-index: 0;
+  min-width: 350px;
+  max-width: 650px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  pointer-events: none;
+}
+.bottomBar {
+  position: fixed;
+  bottom: 0;
+  width: -webkit-fill-available;
+  height: 70px;
+  background: #fff;
+  box-shadow: 0 -4px 41px 0 #0000001f;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.bottomBar .centerBack {
+  position: absolute;
+  width: 55px;
+  aspect-ratio: 1;
+  background: #fff;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: -27.5px;
+  z-index: 3;
+  border-radius: 50%;
+  transform: scale(1.5);
+  box-shadow: 2px -4px 41px 0 #0000001f;
+  cursor: pointer;
+}
+
+.bottomBar .icons {
+  display: flex;
+  width: 100%;
+  flex-flow: row;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.bottomBar .icons::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 70px;
+  aspect-ratio: 1;
+  top: -35px;
+  left: 0;
+  border-radius: 50%;
+  right: 0;
+  margin: auto;
+  background: #ededed;
+  z-index: 2;
+  transform: scale(1.5);
+}
+
+.bottomBar .icons .left,
+.bottomBar .icons .right {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-evenly;
+}
+
+.bottomBar .center {
+  position: absolute;
+  top: -12.5px;
+  width: fit-content;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 3;
+  transform: scale(1.3);
+  cursor: pointer;
+}
+.bottomBar .icons img {
+  transform: scale(1.3);
+  cursor: pointer;
+}
+
+@media screen and (max-width: 650px) {
+  .bottomBar {
+    min-width: 350px;
+    max-width: 650px;
+  }
+  .bottomBar .icons .left {
+    margin-right: 60px;
+  }
+  .bottomBar .icons .left,
+  .bottomBar .icons .right {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 651px) {
+  .bottomBarBack {
+    display: none;
+  }
+  .bottomBar {
+    position: fixed;
+    background: #fff;
+    box-shadow: 0 4px 41px 0 #0000001f;
+    width: fit-content;
+    left: 20px;
+    right: 100%;
+    bottom: 0;
+    margin: auto;
+    top: 41px;
+    height: 50%;
+    max-height: 450px;
+    min-height: 410px;
+    border-radius: 500px;
+  }
+
+  .bottomBar .center {
+    position: absolute;
+    top: -12.5px;
+    width: -moz-fit-content;
+    width: fit-content;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 3;
+    transform: scale(1.3);
+    cursor: pointer;
+  }
+
+  .bottomBar .icons {
+    display: flex;
+    width: 80px;
+    flex-flow: column;
+    justify-content: flex-end;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    max-height: 450px;
+    min-height: 200px;
+  }
+
+  .bottomBar .icons .left {
+    margin-bottom: -70%;
+  }
+  .bottomBar .icons .left,
+  .bottomBar .icons .right {
+    display: flex;
+    flex-flow: column;
+    align-items: baseline;
+    justify-content: space-evenly;
+    height: 50%;
+  }
+
+  .bottomBar .icons::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 70px;
+    aspect-ratio: 1;
+    top: -35px;
+    left: 0;
+    border-radius: 50%;
+    right: 0;
+    margin: auto;
+    background: #f4f4f4;
+    z-index: 2;
+    transform: scale(1.5);
+  }
+}
+
+@media screen and (min-width: 651px) and (max-height: 410px) {
+  .bottomBar {
+    transform: scale(0.7);
+  }
+}

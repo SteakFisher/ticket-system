@@ -29,6 +29,7 @@ import Socials from "@/components/ui/Socials";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import Link from "next/link";
+import Bottombar from "@/components/ui/bottomBar";
 
 import logoTall from "../../public/KreivaXAlfaazLogo_tall.png";
 
@@ -56,7 +57,7 @@ export default function FormElement({
   const [loading, setLoading] = useState(false);
   const [userdata, setData] = useState<any>(id ? [{ id }] : null);
   const [isLoading, setIsLoading] = useState(true);
-  console.log(userdata);
+  const [isAdmin, setIsAdmin] = useState(admin);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -78,6 +79,22 @@ export default function FormElement({
   const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
+    if (!admin && !isAdmin) {
+      supabase
+        .from("Admins")
+        .select("*")
+        .then(
+          (response) => {
+            const { data } = response;
+            if (data && data.length != 0) {
+              setIsAdmin(true);
+            }
+          },
+          (error) => {
+            console.error("Error:", error);
+          }
+        );
+    }
     const checkTicket = async () => {
       const {
         data: { user },
@@ -96,214 +113,238 @@ export default function FormElement({
 
     if (!admin && !id) fetchData();
     else setIsLoading(false);
-  }, [supabase, admin, id]);
+  }, [supabase, admin, id, isAdmin]);
 
   return isLoading ? (
     ""
   ) : (
-    <Form {...form}>
-      <Toaster position="top-right" reverseOrder={false} />
-      <form
-        onSubmit={form.handleSubmit(async (e) => {
-          setLoading(true);
-          setIsDisabled(true);
-          if (!admin) {
-            const {
-              data: { user },
-            } = await supabase.auth.getUser();
-            const { data } = await supabase
-              .from("Guests")
-              .insert({
-                alias: e.alias,
-                altEmail: e.altEmail,
-                isVeg: e.isVeg as unknown as boolean,
-                email: user?.email,
-              })
-              .select("id");
+    <>
+      <Form {...form}>
+        <Toaster position="top-right" reverseOrder={false} />
+        <form
+          onSubmit={form.handleSubmit(async (e) => {
+            setLoading(true);
+            setIsDisabled(true);
+            if (!admin) {
+              const {
+                data: { user },
+              } = await supabase.auth.getUser();
+              const { data } = await supabase
+                .from("Guests")
+                .insert({
+                  alias: e.alias,
+                  altEmail: e.altEmail,
+                  isVeg: e.isVeg as unknown as boolean,
+                  email: user?.email,
+                })
+                .select("id");
 
-            if (data) {
-              setData(data);
+              if (data) {
+                setData(data);
+              } else {
+                toast.error(
+                  "An error occurred. Please try again or contact administrator."
+                );
+              }
             } else {
-              toast.error(
-                "An error occurred. Please try again or contact administrator."
-              );
+              const {
+                data: { user },
+              } = await supabase.auth.getUser();
+
+              const response = await fetch(`${location.origin}/api/user`, {
+                cache: "no-cache",
+                method: "POST",
+                body: JSON.stringify({
+                  alias: e.alias,
+                  altEmail: e.altEmail,
+                  isVeg: e.isVeg as unknown as boolean,
+                  email: user?.email,
+                }),
+              });
+
+              const data = await response.json();
+              setData(data);
             }
-          } else {
-            const {
-              data: { user },
-            } = await supabase.auth.getUser();
 
-            const response = await fetch(`${location.origin}/api/user`, {
-              cache: "no-cache",
-              method: "POST",
-              body: JSON.stringify({
-                alias: e.alias,
-                altEmail: e.altEmail,
-                isVeg: e.isVeg as unknown as boolean,
-                email: user?.email,
-              }),
-            });
-
-            const data = await response.json();
-            setData(data);
-          }
-
-          setLoading(false);
-        })}
-        className="space-y-8 ticketForm"
-      >
-        <div
+            setLoading(false);
+          })}
+          className="space-y-8 ticketForm"
           style={
             loading
-              ? {
-                  position: "absolute",
-                  bottom: 0,
-                  top: 0,
-                  height: "120px",
-                  width: "88px",
-                  left: 0,
-                  right: 0,
-                  margin: "auto",
-                }
-              : { position: "relative" }
+              ? { position: "absolute", top: "0", bottom: "0", margin: "auto" }
+              : {}
           }
         >
           <div
-            className="loader"
-            style={{ display: `${loading ? "block" : "none"}` }}
-          ></div>
-          <Image src={logoTall} alt="logo" height="120" />
-        </div>
+            style={
+              loading
+                ? {
+                    position: "absolute",
+                    bottom: 0,
+                    top: 0,
+                    height: "120px",
+                    width: "88px",
+                    left: 0,
+                    right: 0,
+                    margin: "auto",
+                  }
+                : { position: "relative" }
+            }
+          >
+            <div
+              className="loader"
+              style={{ display: `${loading ? "block" : "none"}` }}
+            ></div>
+            <Image src={logoTall} alt="logo" height="120" />
+          </div>
 
-        <h1
-          className="text-3xl font-bold"
-          style={{ display: `${!loading ? "block" : "none"}` }}
-        >
-          Kreiva X Alfaaz
-        </h1>
-        {loading || userdata ? (
-          userdata ? (
-            <>
-              <h2>
-                Congratulations! Your ticket has been successfully generated.
-                You&apos;ll receive access to your ticket approximately one week
-                before the event. In the meantime, why not start practicing some
-                killer dance moves to dazzle your friends on the dance floor?
-              </h2>
-              <h3>
-                BOOKING ID: <br />
-                {userdata[0].id}
-              </h3>
-              {admin ? (
-                <>
-                  <Button
-                    className="ticketButton"
-                    style={{ width: "180px", height: "40px" }}
-                    onClick={() => {
-                      setData(null);
-                      setIsDisabled(false);
-                      router.refresh();
-                    }}
-                  >
-                    New Ticket
-                  </Button>
-                  <br />
-                  <button
-                    className="ticketButton"
-                    style={{
-                      width: "180px",
-                      height: "40px",
-                      color: "#fff",
-                      marginTop: "-15px",
-                    }}
-                  >
-                    <Link href="/tickets">View Tickets</Link>
-                  </button>
-                </>
-              ) : null}
-            </>
-          ) : (
-            ""
-          )
-        ) : (
-          <>
-            <h2 className="text-xl font-semibold">
-              Don&apos;t miss out on the fun - reserve your spot now!
-            </h2>
-            <FormField
-              control={form.control}
-              name="alias"
-              render={({ field }) => (
-                <div>
-                  <FormItem
-                    className={`longInput ${aliasValue ? "has-value" : ""}`}
-                  >
-                    <FormLabel>Alias</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                  </FormItem>
-                  <FormMessage />
-                </div>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="altEmail"
-              render={({ field }) => (
-                <div>
-                  <FormItem
-                    className={`longInput ${altEmailValue ? "has-value" : ""}`}
-                  >
-                    <FormLabel>Alternate Email</FormLabel>
-                    <FormControl>
-                      <Input type={"email"} {...field} />
-                    </FormControl>
-                  </FormItem>
-                  <FormMessage />
-                </div>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="isVeg"
-              render={({ field }) => (
-                <div>
-                  <FormItem className="longInput">
-                    {/* <FormLabel>I am a..</FormLabel> */}
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
+          <h1
+            className="text-3xl font-bold"
+            style={{ display: `${!loading ? "block" : "none"}` }}
+          >
+            Kreiva X Alfaaz
+          </h1>
+          {loading || userdata ? (
+            userdata ? (
+              <>
+                <h2>
+                  Congratulations! Your ticket has been successfully generated.
+                  You&apos;ll receive access to your ticket approximately one
+                  week before the event. In the meantime, why not start
+                  practicing some killer dance moves to dazzle your friends on
+                  the dance floor?
+                </h2>
+                <h3>
+                  BOOKING ID: <br />
+                  {userdata[0].id}
+                </h3>
+                {admin ? (
+                  <>
+                    <Button
+                      className="ticketButton"
+                      style={{ width: "180px", height: "40px" }}
+                      onClick={() => {
+                        setData(null);
+                        setIsDisabled(false);
+                        router.refresh();
+                      }}
                     >
+                      New Ticket
+                    </Button>
+                    <br />
+                    <button
+                      className="ticketButton"
+                      style={{
+                        width: "180px",
+                        height: "40px",
+                        color: "#fff",
+                        marginTop: "-15px",
+                      }}
+                    >
+                      <Link href="/tickets">View Tickets</Link>
+                    </button>
+                  </>
+                ) : null}
+              </>
+            ) : (
+              ""
+            )
+          ) : (
+            <>
+              <h2 className="text-xl font-semibold">
+                Don&apos;t miss out on the fun - reserve your spot now!
+              </h2>
+              <FormField
+                control={form.control}
+                name="alias"
+                render={({ field }) => (
+                  <div>
+                    <FormItem
+                      className={`longInput ${aliasValue ? "has-value" : ""}`}
+                    >
+                      <FormLabel>Alias</FormLabel>
                       <FormControl>
-                        <SelectTrigger className="w-[180px]">
-                          <SelectValue />
-                        </SelectTrigger>
+                        <Input {...field} />
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="true">Vegetarian</SelectItem>
-                        <SelectItem value="false">Non-Vegetarian</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormItem>
-                  <FormMessage />
-                </div>
-              )}
-            />
-            <Button
-              type="submit"
-              disabled={isDisabled}
-              className="ticketButton"
-            >
-              Get Ticket
-            </Button>
-            <div className="followBackground">
-              <span className="follow">FOLLOW US</span>
-            </div>
-            <Socials />
-          </>
-        )}
-      </form>
-    </Form>
+                    </FormItem>
+                    <FormMessage />
+                  </div>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="altEmail"
+                render={({ field }) => (
+                  <div>
+                    <FormItem
+                      className={`longInput ${
+                        altEmailValue ? "has-value" : ""
+                      }`}
+                    >
+                      <FormLabel>Alternate Email</FormLabel>
+                      <FormControl>
+                        <Input type={"email"} {...field} />
+                      </FormControl>
+                    </FormItem>
+                    <FormMessage />
+                  </div>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="isVeg"
+                render={({ field }) => (
+                  <div>
+                    <FormItem className="longInput">
+                      {/* <FormLabel>I am a..</FormLabel> */}
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="w-[180px]">
+                            <SelectValue />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="true">Vegetarian</SelectItem>
+                          <SelectItem value="false">Non-Vegetarian</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                    <FormMessage />
+                  </div>
+                )}
+              />
+              <Button
+                type="submit"
+                disabled={isDisabled}
+                className="ticketButton"
+              >
+                Get Ticket
+              </Button>
+              <div className="followBackground">
+                <span className="follow">FOLLOW US</span>
+              </div>
+              <Socials />
+            </>
+          )}
+        </form>
+      </Form>
+      <Bottombar
+        admin={isAdmin || false}
+        active={
+          !isAdmin
+            ? userdata
+              ? "qr"
+              : "form"
+            : !userdata
+            ? "form"
+            : window.location.href.includes("admin=true")
+            ? "tickets"
+            : "qr"
+        }
+      />
+    </>
   );
 }

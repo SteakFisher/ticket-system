@@ -5,20 +5,23 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: -moz-fit-content;
   width: fit-content;
   box-shadow: 0 12px 47px 0 #00000029;
-  position: absolute;
   bottom: 0;
   right: 0;
   top: 0;
   left: 0;
   max-width: 600px;
-  margin: auto;
+  margin: 40px auto;
+  height: -moz-fit-content;
   height: fit-content;
   border-radius: 20px;
   padding: 40px 50px;
   min-width: 400px;
   min-height: 400px;
+  position: absolute;
+  margin: auto;
 }
 
 .loginForm {
@@ -222,9 +225,9 @@
 
 .logoTall.inLoader {
   position: absolute;
-    top: 0;
-    bottom: 0;
-    margin: auto;
+  top: 0;
+  bottom: 0;
+  margin: auto;
 }
 
 @keyframes spin {
@@ -238,11 +241,12 @@
 
 @media screen and (max-width: 650px) {
   .ticketForm {
-    padding: 40px 25px;
+    padding: 50px 25px;
     box-shadow: none;
     height: 100%;
     width: 100%;
     justify-content: flex-start;
+    position: relative;
   }
   .socials {
     padding-bottom: 30px !important;
@@ -263,6 +267,12 @@
   }
 
   .followBackground {
-    margin-top: 120px !important;
+    margin-top: 60px !important;
+  }
+}
+
+@media screen and (max-height: 820px) and (max-width: 650px) {
+  .ticketForm {
+    height: calc(1000px - 20vh);
   }
 }

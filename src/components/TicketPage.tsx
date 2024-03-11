@@ -1,15 +1,52 @@
+"use client";
 import TicketQR from "@/components/TicketQR";
 import "./TicketPage.css";
+import { createClient } from "@/utils/supabase/client";
+import { Database } from "../../database.types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
   faInstagram,
   faXTwitter,
 } from "@fortawesome/free-brands-svg-icons";
+import Bottombar from "@/components/ui/bottomBar";
+import { useEffect, useState } from "react";
 
 export default function TicketPage(props: {
   data: { id: string; locked: boolean; alias: string; role: string }[];
 }) {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const supabase = createClient<Database>();
+
+  useEffect(() => {
+    try {
+      supabase.auth.getUser().then((user) => {
+        if (user && !user.error) {
+          setIsLoggedIn(true);
+        }
+      });
+    } catch (e) {
+      console.error(e);
+    }
+    if (!isAdmin) {
+      supabase
+        .from("Admins")
+        .select("*")
+        .then(
+          (response) => {
+            const { data } = response;
+            if (data && data.length != 0) {
+              setIsAdmin(true);
+            }
+          },
+          (error) => {
+            console.error("Error:", error);
+          }
+        );
+    }
+  }, [supabase, isAdmin, isLoggedIn]);
+
   return (
     <>
       <div className="body">
@@ -127,6 +164,18 @@ export default function TicketPage(props: {
           </div>
         </div>
       </div>
+      {isLoggedIn && (
+        <Bottombar
+          admin={isAdmin || false}
+          active={
+            !isAdmin
+              ? "qr"
+              : isAdmin && window.location.href.includes("id")
+              ? "tickets"
+              : "qr"
+          }
+        />
+      )}
     </>
   );
 }
