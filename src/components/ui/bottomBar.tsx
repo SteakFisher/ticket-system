@@ -15,6 +15,7 @@ import Website from "../../../public/svg/Website.svg";
 import "./bottomBar.css";
 import { createClient } from "@/utils/supabase/client";
 import { RWebShare } from "react-web-share";
+import Link from "next/link";
 
 const BottomBar = (props: { admin: boolean; active: String }) => {
   const supabase = createClient();
@@ -25,13 +26,15 @@ const BottomBar = (props: { admin: boolean; active: String }) => {
         <div className="centerBack"></div>
         <div className="center">
           {props.admin ? (
-            <Image
-              src={Scan}
-              alt="Scan"
-              onClick={() => {
-                window.open("/scanner", "_self");
-              }}
-            />
+            <Link href={"/scanner"}>
+              <Image
+                src={Scan}
+                alt="Scan"
+                // onClick={() => {
+                //   window.open("/scanner", "_self");
+                // }}
+              />
+            </Link>
           ) : (
             <Image
               src={Website}
@@ -47,47 +50,55 @@ const BottomBar = (props: { admin: boolean; active: String }) => {
         </div>
         <div className="icons">
           <div className="left">
-            <Image
-              src={props.active !== "form" ? home : home_active}
-              alt="Home"
-              className={props.active === "form" ? "active" : ""}
-              onClick={() => {
-                window.open(
-                  props.admin ? "/form?admin=true" : "/form",
-                  "_self"
-                );
-              }}
-            />
+            <Link href={"/form?admin=true"}>
+              <Image
+                src={props.active !== "form" ? home : home_active}
+                alt="Home"
+                className={props.active === "form" ? "active" : ""}
+                // onClick={() => {
+                //   window.open(
+                //     props.admin ? "/form?admin=true" : "/form",
+                //     "_self"
+                //   );
+                // }}
+              />
+            </Link>
             {props.admin ? (
-              <Image
-                src={props.active != "tickets" ? Tickets : Tickets_Active}
-                alt="Tickets"
-                className={props.active === "tickets" ? "active" : ""}
-                onClick={() => {
-                  window.open("/tickets", "_self");
-                }}
-              />
+              <Link href={"/tickets"}>
+                <Image
+                  src={props.active != "tickets" ? Tickets : Tickets_Active}
+                  alt="Tickets"
+                  className={props.active === "tickets" ? "active" : ""}
+                  // onClick={() => {
+                  //   window.open("/tickets", "_self");
+                  // }}
+                />
+              </Link>
             ) : (
-              <Image
-                src={props.active !== "qr" ? User : User_Active}
-                alt="User"
-                className={props.active === "qr" ? "active" : ""}
-                onClick={() => {
-                  window.open("/form", "_self");
-                }}
-              />
+              <Link href={"/form"}>
+                <Image
+                  src={props.active !== "qr" ? User : User_Active}
+                  alt="User"
+                  className={props.active === "qr" ? "active" : ""}
+                  // onClick={() => {
+                  //   window.open("/form", "_self");
+                  // }}
+                />
+              </Link>
             )}
           </div>
           <div className="right">
             {props.admin ? (
-              <Image
-                src={props.active !== "qr" ? User : User_Active}
-                alt="User"
-                className={props.active === "qr" ? "active" : ""}
-                onClick={() => {
-                  window.open("/form", "_self");
-                }}
-              />
+              <Link href={"/form"}>
+                <Image
+                  src={props.active !== "qr" ? User : User_Active}
+                  alt="User"
+                  className={props.active === "qr" ? "active" : ""}
+                  // onClick={() => {
+                  //   window.open("/form", "_self");
+                  // }}
+                />
+              </Link>
             ) : (
               <RWebShare
                 data={{
@@ -100,15 +111,17 @@ const BottomBar = (props: { admin: boolean; active: String }) => {
                 <Image src={Share} alt="Share" />
               </RWebShare>
             )}
-            <Image
-              src={Out}
-              alt="Logout"
-              onClick={async () => {
-                const { error } = await supabase.auth.signOut();
-                console.error(error);
-                window.open("/", "_self");
-              }}
-            />
+            <Link href={"/"} onClick={async (e) => await supabase.auth.signOut()}>
+              <Image
+                src={Out}
+                alt="Logout"
+                // onClick={async () => {
+                //   const { error } = await supabase.auth.signOut();
+                //   console.error(error);
+                //   window.open("/", "_self");
+                // }}
+              />
+            </Link>
           </div>
         </div>
       </div>
