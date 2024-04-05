@@ -50,7 +50,7 @@ const BottomBar = (props: { admin: boolean; active: String }) => {
         </div>
         <div className="icons">
           <div className="left">
-            <Link href={"/form?admin=true"}>
+            <Link href={props.admin ? "/form?admin=true" : "/form"}>
               <Image
                 src={props.active !== "form" ? home : home_active}
                 alt="Home"
@@ -66,7 +66,7 @@ const BottomBar = (props: { admin: boolean; active: String }) => {
             {props.admin ? (
               <Link href={"/tickets"}>
                 <Image
-                  src={props.active != "tickets" ? Tickets : Tickets_Active}
+                  src={props.active !== "tickets" ? Tickets : Tickets_Active}
                   alt="Tickets"
                   className={props.active === "tickets" ? "active" : ""}
                   // onClick={() => {
