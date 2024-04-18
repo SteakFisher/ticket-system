@@ -11,6 +11,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import Bottombar from "@/components/ui/bottomBar";
 import { useEffect, useState } from "react";
+import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 
 export default function TicketPage(props: {
   data: { id: string; locked: boolean; alias: string; role: string }[];
@@ -107,11 +108,15 @@ export default function TicketPage(props: {
                 <a href="https://www.instagram.com">
                   <FontAwesomeIcon icon={faInstagram} />
                 </a>
-                <a href="https://www.twiiter.com/home">
-                  <FontAwesomeIcon icon={faXTwitter} />
+                <a
+                  href="mailto:academics_committee@iiitvadodara.ac.in"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <FontAwesomeIcon icon={faEnvelope} />
                 </a>
-                <a href="https://wwww.facebook.com">
-                  <FontAwesomeIcon icon={faFacebook} />
+                <a href="tel:+91 6367019081" target="_blank" rel="noreferrer">
+                  <FontAwesomeIcon icon={faPhone} />
                 </a>
               </div>
             </div>
