@@ -41,7 +41,7 @@ const BottomBar = (props: { admin: boolean; active: String }) => {
               alt="Website"
               onClick={() => {
                 window.open(
-                  "https://something.com/nothing#Kreiva-X-Akfaaz",
+                  "https://kreiva-x-alfaaz.co/",
                   "_blank"
                 );
               }}
