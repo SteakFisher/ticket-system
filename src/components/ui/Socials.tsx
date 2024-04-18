@@ -4,30 +4,31 @@ import {
   faInstagram,
   faXTwitter,
 } from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 
 const Socials = () => {
   return (
     <div className="socials">
       <a
-        href="https://www.instagram.com/kreivaxalfaaz/"
+        href="https://www.instagram.com/academics_committee_iiitv/"
         target="_blank"
         rel="noreferrer"
       >
         <FontAwesomeIcon icon={faInstagram} />
       </a>
       <a
-        href="https://www.instagram.com/kreivaxalfaaz/"
+        href="mailto:academics_committee@iiitvadodara.ac.in"
         target="_blank"
         rel="noreferrer"
       >
-        <FontAwesomeIcon icon={faXTwitter} />
+        <FontAwesomeIcon icon={faEnvelope} />
       </a>
       <a
-        href="https://www.instagram.com/kreivaxalfaaz/"
+        href="tel:+91 6367019081"
         target="_blank"
         rel="noreferrer"
       >
-        <FontAwesomeIcon icon={faFacebook} />
+        <FontAwesomeIcon icon={faPhone} />
       </a>
     </div>
   );
