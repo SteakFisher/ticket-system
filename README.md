@@ -1,7 +1,10 @@
-## IIITV Ticket Booking System
+## Kreiva-X-Alfaaz Ticket Booking System
 
+An event ticket booking system designed to streamline the ticketing process for both users and administrators. Built with Next.js and Supabase, this system offers a user-friendly interface for booking single (users) or multiple tickets (admins). Administrators benefit from a seamless entry management system with scanning capabilities to ensure a smooth event experience.
 
-![Screenshot 2024-06-10 023204](https://github.com/SteakFisher/ticket-system/assets/88953813/b489a7ea-43af-4edc-962d-a0ce1e4af531)
-![Screenshot 2024-06-10 023518](https://github.com/SteakFisher/ticket-system/assets/88953813/40e2ae25-3247-468c-b3e4-3e108df6c3dc)
-![Screenshot 2024-06-10 023602](https://github.com/SteakFisher/ticket-system/assets/88953813/db858e6c-5721-486d-9723-08c28fc04e50)
-![Screenshot 2024-06-10 023645](https://github.com/SteakFisher/ticket-system/assets/88953813/94c1a0be-d906-4c4b-85eb-02acffba16ee)
+![AndroidMockups_tkt](https://github.com/user-attachments/assets/4b9a6fdc-b7fd-4dd9-b18f-8798d113d986)
+
+## Authors
+
+- [@theDevyashSaini](https://www.github.com/thedevyashsaini)
+- [@SteakFisher](https://github.com/SteakFisher)
