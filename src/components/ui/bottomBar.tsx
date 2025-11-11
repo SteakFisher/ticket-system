@@ -13,12 +13,11 @@ import User from "../../../public/svg/User.svg";
 import User_Active from "../../../public/svg/User_Active.svg";
 import Website from "../../../public/svg/Website.svg";
 import "./bottomBar.css";
-import { createClient } from "@/utils/supabase/client";
 import { RWebShare } from "react-web-share";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 
 const BottomBar = (props: { admin: boolean; active: String }) => {
-  const supabase = createClient();
   return (
     <>
       <div className="bottomBarBack"></div>
@@ -40,10 +39,7 @@ const BottomBar = (props: { admin: boolean; active: String }) => {
               src={Website}
               alt="Website"
               onClick={() => {
-                window.open(
-                  "https://kreiva-x-alfaaz.co/",
-                  "_blank"
-                );
+                window.open("https://kreiva-x-alfaaz.co/", "_blank");
               }}
             />
           )}
@@ -111,17 +107,14 @@ const BottomBar = (props: { admin: boolean; active: String }) => {
                 <Image src={Share} alt="Share" />
               </RWebShare>
             )}
-            <Link href={"/"} onClick={async (e) => await supabase.auth.signOut()}>
-              <Image
-                src={Out}
-                alt="Logout"
-                // onClick={async () => {
-                //   const { error } = await supabase.auth.signOut();
-                //   console.error(error);
-                //   window.open("/", "_self");
-                // }}
-              />
-            </Link>
+            <Image
+              src={Out}
+              alt="Logout"
+              onClick={async () => {
+                await signOut({ callbackUrl: "/" });
+              }}
+              style={{ cursor: "pointer" }}
+            />
           </div>
         </div>
       </div>

@@ -1,17 +1,32 @@
-import {createClient} from "@/utils/supabase/server";
-import {Database} from "../../../database.types";
-import ScannerComponent from "@/components/Scanner";
-import Error from "../../components/ui/Error";
+import { auth } from "@/auth";
+import { db } from "@/db";
+import { admins } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import { redirect } from "next/navigation";
+import ScannerComponent from "@/components/ScannerComponent";
+import Error from "@/components/ui/Error";
 
 export default async function Scanner() {
-  const supabase = createClient<Database>()
-  const {data} = await supabase.from("Admins").select("*")
+  const session = await auth();
 
-  if (data && data.length != 0) {
-    return (
-      <ScannerComponent />
-    )
-  } else {
-    return (<Error code="403" text="Forbidden" detail="You don't have permission to access this page"/>)
+  if (!session?.user?.id) {
+    redirect("/");
   }
+
+  // Check if user is admin
+  const isAdmin = await db.query.admins.findFirst({
+    where: eq(admins.id, session.user.id),
+  });
+
+  if (!isAdmin) {
+    return (
+      <Error
+        code="403"
+        text="Forbidden"
+        detail="You don't have permission to access this page"
+      />
+    );
+  }
+
+  return <ScannerComponent />;
 }

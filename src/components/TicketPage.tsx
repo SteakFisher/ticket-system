@@ -1,8 +1,6 @@
 "use client";
 import TicketQR from "@/components/TicketQR";
 import "./TicketPage.css";
-import { createClient } from "@/utils/supabase/client";
-import { Database } from "../../database.types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
@@ -12,41 +10,30 @@ import {
 import Bottombar from "@/components/ui/bottomBar";
 import { useEffect, useState } from "react";
 import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { isUserAdmin } from "@/actions/tickets";
+import { useSession } from "next-auth/react";
 
 export default function TicketPage(props: {
   data: { id: string; locked: boolean; alias: string; role: string }[];
 }) {
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const supabase = createClient<Database>();
+  const { data: session } = useSession();
+  const isLoggedIn = !!session?.user;
 
   useEffect(() => {
-    try {
-      supabase.auth.getUser().then((user) => {
-        if (user && !user.error) {
-          setIsLoggedIn(true);
-        }
-      });
-    } catch (e) {
-      console.error(e);
+    const checkAdmin = async () => {
+      try {
+        const adminStatus = await isUserAdmin();
+        setIsAdmin(adminStatus);
+      } catch (error) {
+        console.error("Error checking admin status:", error);
+      }
+    };
+
+    if (isLoggedIn) {
+      checkAdmin();
     }
-    if (!isAdmin) {
-      supabase
-        .from("Admins")
-        .select("*")
-        .then(
-          (response) => {
-            const { data } = response;
-            if (data && data.length != 0) {
-              setIsAdmin(true);
-            }
-          },
-          (error) => {
-            console.error("Error:", error);
-          }
-        );
-    }
-  }, [supabase, isAdmin, isLoggedIn]);
+  }, [isLoggedIn]);
 
   return (
     <>
@@ -176,8 +163,8 @@ export default function TicketPage(props: {
             !isAdmin
               ? "qr"
               : isAdmin && window.location.href.includes("id")
-              ? "tickets"
-              : "qr"
+                ? "tickets"
+                : "qr"
           }
         />
       )}
