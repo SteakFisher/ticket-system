@@ -1,6 +1,6 @@
 "use client";
 
-export default function Footer() {
+export default function Footer({ isLoginScreen = false }: { isLoginScreen?: boolean }) {
   return (
     <>
       <style jsx>{`
@@ -9,12 +9,12 @@ export default function Footer() {
           padding: 20px 0;
           font-size: 14px;
           color: #666;
-          margin-top: -20px !important;
+          margin-top: ${isLoginScreen ? '30px' : '-20px'} !important;
         }
         
-        @media screen and (max-width: 650px) {
+        @media screen and (min-width: 650px) {
           .footer-container {
-            margin-top: -20px;
+            margin-top: 15px !important;
             padding: 10px 0;
           }
         }
