@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import ScannerComponent from "@/components/ScannerComponent";
 import Error from "@/components/ui/Error";
+import { isUserAdmin } from "@/actions/tickets";
 
 export default async function Scanner() {
   const session = await auth();
@@ -14,9 +15,7 @@ export default async function Scanner() {
   }
 
   // Check if user is admin
-  const isAdmin = await db.query.admins.findFirst({
-    where: eq(admins.id, session.user.id),
-  });
+  const isAdmin = await isUserAdmin()
 
   if (!isAdmin) {
     return (
