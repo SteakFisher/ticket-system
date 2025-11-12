@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import Error from "@/components/ui/Error";
 import TicketsDisplay from "@/components/TicketsDisplay";
+import { getMyTickets } from "@/actions/tickets";
 
 export default async function TicketsPage() {
   const session = await auth();
@@ -29,9 +30,7 @@ export default async function TicketsPage() {
   }
 
   // Get all tickets for admin
-  const allTickets = await db.query.guests.findMany({
-    orderBy: (guests, { desc }) => [desc(guests.createdAt)],
-  });
+  const allTickets = await getMyTickets();
 
-  return <TicketsDisplay tickets={allTickets} />;
+  return <TicketsDisplay tickets={allTickets || []} />;
 }
