@@ -74,7 +74,7 @@ export async function getMyTickets() {
     const userTickets = await db.query.guests.findFirst({
       where: eq(guests.authId, session.user.id),
     });
-    return [userTickets];
+    return userTickets ? [userTickets] : null;
   }
 }
 
