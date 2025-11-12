@@ -73,7 +73,7 @@ export default function Home() {
             <span className="follow">FOLLOW US</span>
           </div>
           <Socials />
-          <Footer />
+          <Footer isLoginScreen={true} />
         </>
       )}
     </div>

@@ -174,34 +174,6 @@ export default function NewTicketForm({
                   BOOKING ID: <br />
                   {userdata[0].id}
                 </h3>
-                {admin ? (
-                  <>
-                    <Button
-                      className="ticketButton"
-                      style={{ width: "180px", height: "40px" }}
-                      onClick={() => {
-                        setData(null);
-                        setIsDisabled(false);
-                        form.reset();
-                        router.refresh();
-                      }}
-                    >
-                      New Ticket
-                    </Button>
-                    <br />
-                    <button
-                      className="ticketButton"
-                      style={{
-                        width: "180px",
-                        height: "40px",
-                        color: "#fff",
-                        marginTop: "-15px",
-                      }}
-                    >
-                      <Link href="/tickets">View Tickets</Link>
-                    </button>
-                  </>
-                ) : null}
               </>
             ) : (
               ""
