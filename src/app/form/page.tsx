@@ -7,6 +7,7 @@ import NewTicketForm from "@/components/NewTicketForm";
 import TicketPage from "@/components/TicketPage";
 import Success from "@/components/Success";
 import Error from "@/components/ui/Error";
+import { isUserAdmin } from "@/actions/tickets";
 
 type FormPageProps = {
   admin?: string;
@@ -28,11 +29,7 @@ export default async function FormPage({
   }
 
   // Check if user is admin
-  const isAdmin = session?.user?.id
-    ? await db.query.admins.findFirst({
-        where: eq(admins.id, session.user.id),
-      })
-    : null;
+  const isAdmin = await isUserAdmin()
 
   // Admin-specific routes
   if (searchParams?.admin) {

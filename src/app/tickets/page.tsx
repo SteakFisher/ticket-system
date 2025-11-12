@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import Error from "@/components/ui/Error";
 import TicketsDisplay from "@/components/TicketsDisplay";
-import { getMyTickets } from "@/actions/tickets";
+import { getMyTickets, isUserAdmin } from "@/actions/tickets";
 
 export default async function TicketsPage() {
   const session = await auth();
@@ -15,9 +15,7 @@ export default async function TicketsPage() {
   }
 
   // Check if user is admin
-  const isAdmin = await db.query.admins.findFirst({
-    where: eq(admins.id, session.user.id),
-  });
+  const isAdmin = await isUserAdmin();
 
   if (!isAdmin) {
     return (
