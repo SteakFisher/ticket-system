@@ -2,6 +2,7 @@ import Image from "next/image";
 import logoTall from "../../public/KreivaXAlfaazLogo_tall.png";
 import "./formCss.css";
 import Bottombar from "@/components/ui/bottomBar";
+import Footer from "@/components/ui/Footer";
 
 export default function Success({
   loggedIn,
@@ -35,6 +36,7 @@ export default function Success({
               BOOKING ID: <br />
               {id}
             </h3>
+            <Footer />
           </>
         </form>
       </div>

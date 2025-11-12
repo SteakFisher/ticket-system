@@ -1,6 +1,7 @@
 "use client";
 import TicketQR from "@/components/TicketQR";
 import "./TicketPage.css";
+import Footer from "@/components/ui/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
@@ -102,7 +103,7 @@ export default function TicketPage(props: {
                 >
                   <FontAwesomeIcon icon={faEnvelope} />
                 </a>
-                <a href="tel:+91 6367019081" target="_blank" rel="noreferrer">
+                <a href="tel:+91 9531852385" target="_blank" rel="noreferrer">
                   <FontAwesomeIcon icon={faPhone} />
                 </a>
               </div>
@@ -133,6 +134,7 @@ export default function TicketPage(props: {
                 </p>
               </div>
             </div>
+            <Footer />
           </div>
           <div className="pricing-container">
             <i className="triangle"></i>
