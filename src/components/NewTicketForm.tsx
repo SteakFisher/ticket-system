@@ -9,13 +9,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -24,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import "./formCss.css";
 import Socials from "@/components/ui/Socials";
+import Footer from "@/components/ui/Footer";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import Link from "next/link";
@@ -43,7 +37,6 @@ const formSchema = z.object({
     })
     .regex(new RegExp("^\\w+$")),
   altEmail: z.string().email({ message: "Invalid email address" }),
-  isVeg: z.string(),
 });
 
 export default function NewTicketForm({
@@ -67,7 +60,6 @@ export default function NewTicketForm({
     defaultValues: {
       alias: "",
       altEmail: "",
-      isVeg: "true",
     },
   });
 
@@ -116,7 +108,7 @@ export default function NewTicketForm({
               const ticket = await createTicket({
                 alias: e.alias,
                 altEmail: e.altEmail,
-                isVeg: e.isVeg === "true",
+                isVeg: true,
                 email: userEmail,
               });
 
@@ -255,31 +247,6 @@ export default function NewTicketForm({
                   </div>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="isVeg"
-                render={({ field }) => (
-                  <div>
-                    <FormItem className="longInput">
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="w-[180px]">
-                            <SelectValue />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="true">Vegetarian</SelectItem>
-                          <SelectItem value="false">Non-Vegetarian</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                    <FormMessage />
-                  </div>
-                )}
-              />
               <Button
                 type="submit"
                 disabled={isDisabled}
@@ -291,6 +258,7 @@ export default function NewTicketForm({
                 <span className="follow">FOLLOW US</span>
               </div>
               <Socials />
+              <Footer />
             </>
           )}
         </form>

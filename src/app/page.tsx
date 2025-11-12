@@ -4,6 +4,7 @@ import Image from "next/image";
 import "../components/formCss.css";
 import { useState } from "react";
 import Socials from "@/components/ui/Socials";
+import Footer from "@/components/ui/Footer";
 import tSystemLogo from "../../public/TicketSystemLogo.png";
 import userIllustration from "../../public/User--KreivaXAlfaaz.svg";
 import google from "../../public/Google.svg";
@@ -72,6 +73,7 @@ export default function Home() {
             <span className="follow">FOLLOW US</span>
           </div>
           <Socials />
+          <Footer />
         </>
       )}
     </div>

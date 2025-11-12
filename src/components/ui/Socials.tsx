@@ -24,7 +24,7 @@ const Socials = () => {
         <FontAwesomeIcon icon={faEnvelope} />
       </a>
       <a
-        href="tel:+91 6367019081"
+        href="tel:+91 9074755597"
         target="_blank"
         rel="noreferrer"
       >
