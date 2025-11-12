@@ -56,16 +56,16 @@ export default function TicketPage(props: {
               </div>
               <div className="event-details">
                 <p className="heading">Kreiva X Alfaaz</p>
-                <p>2024</p>
-                <p>Sat, 6 April | 11.00 AM</p>
-                <p>Sector 11, Gandhinagar,</p>
+                <p>2025</p>
+                <p>Fri, 14 November | 04.00 PM</p>
+                <p>Townhall, Gandhinagar,</p>
                 <p>Gujarat</p>
               </div>
             </div>
             <div className="location-section">
               <div></div>
               <div className="rectangle-nav location">
-                <a href="https://maps.google.com" target="_blank">
+                <a href="https://maps.app.goo.gl/bVjSSDFyto2qJpMQ8" target="_blank">
                   Tap for venue directions
                 </a>
               </div>
@@ -87,12 +87,12 @@ export default function TicketPage(props: {
               <div className="booking-id">{props.data[0].id}</div>
             </div>
             <div className="follow-us">
-              <span className="hr-line"></span>FOLLOW US
+              <span className="hr-line"></span>Connect With US
               <span className="hr-line"></span>
             </div>
             <div className="follow-us-section">
               <div className="rectangle-nav">
-                <a href="https://www.instagram.com">
+                <a href="https://www.instagram.com/cultural_iiitv/" target="_blank">
                   <FontAwesomeIcon icon={faInstagram} />
                 </a>
                 <a
