@@ -18,9 +18,21 @@ export async function createTicket(data: {
   }
 
   // Check if user is admin
-  const isAdmin = await db.query.admins.findFirst({
-    where: eq(admins.id, session.user.id),
-  });
+  const [isAdmin, existingTicket] = await Promise.all([
+    db.query.admins.findFirst({
+      where: eq(admins.id, session.user.id),
+    }),
+    db.query.guests.findFirst({
+      where: and(
+        eq(guests.authId, session.user.id),
+        eq(guests.alias, data.alias),
+      ),
+    }),
+  ]);
+
+  if (existingTicket && !isAdmin) {
+    throw new Error("You already have a ticket with this alias");
+  }
 
   const ticketData = {
     alias: data.alias,
@@ -54,15 +66,15 @@ export async function getMyTickets() {
     // Admins can see all tickets
     const allTickets = await db.query.guests.findMany({
       orderBy: (guests, { desc }) => [desc(guests.createdAt)],
+      where: eq(guests.authId, session.user.id),
     });
     return allTickets;
   } else {
     // Regular users see only their tickets
-    const userTickets = await db.query.guests.findMany({
+    const userTickets = await db.query.guests.findFirst({
       where: eq(guests.authId, session.user.id),
-      orderBy: (guests, { desc }) => [desc(guests.createdAt)],
     });
-    return userTickets;
+    return [userTickets];
   }
 }
 
