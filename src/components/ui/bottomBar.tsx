@@ -39,7 +39,7 @@ const BottomBar = (props: { admin: boolean; active: String }) => {
               src={Website}
               alt="Website"
               onClick={() => {
-                window.open("https://kreiva-x-alfaaz.co/", "_blank");
+                window.open("https://www.instagram.com/academics_committee_iiitv/", "_blank");
               }}
             />
           )}
