@@ -57,7 +57,7 @@ export default function TicketPage(props: {
               <div className="event-details">
                 <p className="heading">Kreiva X Alfaaz</p>
                 <p>2025</p>
-                <p>Fri, 14 November | 04.00 PM</p>
+                <p>Fri, 14 November | 03.00 PM</p>
                 <p>Townhall, Gandhinagar,</p>
                 <p>Gujarat</p>
               </div>
